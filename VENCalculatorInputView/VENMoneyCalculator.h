@@ -11,4 +11,11 @@
  */
 - (NSString *)evaluateExpression:(NSString *)expression;
 
+/**
+ * Evaluates a mathematical expression containing +, −, ×, and ÷.
+ * @param expression The expression to evaluate
+ * @return The evaluated number. Returns nil if the expression is invalid.
+ */
+- (NSNumber *)numberWithEvaluateExpression:(NSString *)expression;
+
 @end

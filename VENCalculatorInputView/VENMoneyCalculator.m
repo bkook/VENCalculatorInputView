@@ -16,6 +16,22 @@
 }
 
 - (NSString *)evaluateExpression:(NSString *)expressionString {
+
+    NSNumber *result = [self numberWithEvaluateExpression:expressionString];
+
+    NSInteger integerExpression = [result integerValue];
+    CGFloat floatExpression = [result floatValue];
+    if (integerExpression == floatExpression) {
+        return [result stringValue];
+    } else if (floatExpression >= CGFLOAT_MAX || floatExpression <= CGFLOAT_MIN || isnan(floatExpression)) {
+        return @"0";
+    } else {
+        NSString *moneyFormattedNumber = [[self numberFormatter] stringFromNumber:@(floatExpression)];
+        return [moneyFormattedNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    }
+}
+
+- (NSNumber *)numberWithEvaluateExpression:(NSString *)expressionString {
     if (!expressionString) {
         return nil;
     }
@@ -35,16 +51,7 @@
         }
     }
     if ([result isKindOfClass:[NSNumber class]]) {
-        NSInteger integerExpression = [(NSNumber *)result integerValue];
-        CGFloat floatExpression = [(NSNumber *)result floatValue];
-        if (integerExpression == floatExpression) {
-            return [(NSNumber *)result stringValue];
-        } else if (floatExpression >= CGFLOAT_MAX || floatExpression <= CGFLOAT_MIN || isnan(floatExpression)) {
-            return @"0";
-        } else {
-            NSString *moneyFormattedNumber = [[self numberFormatter] stringFromNumber:@(floatExpression)];
-            return [moneyFormattedNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        }
+        return result;
     } else {
         return nil;
     }
@@ -83,7 +90,7 @@
 }
 
 - (NSCharacterSet *)illegalCharacters {
-    return [[NSCharacterSet characterSetWithCharactersInString:@"0123456789-/*.+"] invertedSet];
+    return [[NSCharacterSet characterSetWithCharactersInString:@"0123456789-/*.+()"] invertedSet];
 }
 
 - (NSString *)decimalSeparator {
