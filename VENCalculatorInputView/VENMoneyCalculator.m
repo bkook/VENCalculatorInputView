@@ -17,7 +17,7 @@
 
 - (NSString *)evaluateExpression:(NSString *)expressionString {
 
-    NSNumber *result = [self numberWithEvaluateExpression:expressionString];
+    NSNumber *result = [self numberWithEvaluateExpression:expressionString exception:nil];
 
     NSInteger integerExpression = [result integerValue];
     CGFloat floatExpression = [result floatValue];
@@ -31,7 +31,7 @@
     }
 }
 
-- (NSNumber *)numberWithEvaluateExpression:(NSString *)expressionString {
+- (NSNumber *)numberWithEvaluateExpression:(NSString *)expressionString exception:(NSException **)outException {
     if (!expressionString) {
         return nil;
     }
@@ -47,7 +47,11 @@
         if ([[exception name] isEqualToString:NSInvalidArgumentException]) {
             return nil;
         } else {
-            [exception raise];
+            if (outException == nil) {
+                [exception raise];
+            } else {
+                *outException = exception;
+            }
         }
     }
     if ([result isKindOfClass:[NSNumber class]]) {

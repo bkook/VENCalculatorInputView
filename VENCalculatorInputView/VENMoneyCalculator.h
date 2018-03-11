@@ -16,6 +16,6 @@
  * @param expression The expression to evaluate
  * @return The evaluated number. Returns nil if the expression is invalid.
  */
-- (NSNumber *)numberWithEvaluateExpression:(NSString *)expression;
+- (NSNumber *)numberWithEvaluateExpression:(NSString *)expressionString exception:(NSException **)outException;
 
 @end
