@@ -13,7 +13,7 @@
 
 /**
  * Evaluates a mathematical expression containing +, −, ×, and ÷.
- * @param expression The expression to evaluate
+ * @param expressionString The expression to evaluate
  * @return The evaluated number. Returns nil if the expression is invalid.
  */
 - (NSNumber *)numberWithEvaluateExpression:(NSString *)expressionString exception:(NSException **)outException;
